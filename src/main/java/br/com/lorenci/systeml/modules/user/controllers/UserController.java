@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    @PostMapping("")
+    @PostMapping("/create")
     public void createUser( @Valid @RequestBody UserModel user) {
         System.out.println(user.getNumeroResidencial());
+        
+        
+        //deleteuser, finduser, updateuser, findAlluser 
     }
 }
