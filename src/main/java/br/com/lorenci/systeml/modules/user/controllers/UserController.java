@@ -1,7 +1,11 @@
 package br.com.lorenci.systeml.modules.user.controllers;
 
 import br.com.lorenci.systeml.modules.user.models.UserModel;
+import br.com.lorenci.systeml.modules.user.repositories.UserRepository;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,13 +18,13 @@ public class UserController {
     private List<UserModel> users = new ArrayList<>();
     private Long nextId = 1L;
 
-    @PostMapping("/create")
-    public UserModel createUser(@Valid @RequestBody UserModel user) {
-        user.setId(nextId);
-        nextId++;
+    @Autowired
+    private UserRepository userRepository;
 
-        users.add(user);
-        return user;
+    @PostMapping("/create")
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserModel userModel) {
+        this.userRepository.save(userModel);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Usuário criado com sucesso!");
     }
 
     @GetMapping("/findAll")
